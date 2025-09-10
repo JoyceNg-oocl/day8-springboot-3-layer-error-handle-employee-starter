@@ -44,15 +44,15 @@ public class CompanyControllerTest {
                 .andExpect(jsonPath("$.name").value("Spring"));
     }
 
-//    @Test
-//    void should_return_all_companies_when_no_param() throws Exception {
-//        Company spring = new Company("Spring");
-//        String springJson = new Gson().toJson(spring);
-//
-//        mockMvc.perform(get("/companies").contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.length()").value(1));
-//    }
+    @Test
+    void should_return_all_companies_when_no_param() throws Exception {
+        String json = new Gson().toJson(new Company("Spring"));
+        mockMvc.perform(post("/companies").contentType(MediaType.APPLICATION_JSON).content(json));
+
+        mockMvc.perform(get("/companies").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1));
+    }
 
 //    @Test
 //    void should_return_company_when_get_id_found() throws Exception {
