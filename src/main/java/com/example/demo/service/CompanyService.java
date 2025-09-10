@@ -36,4 +36,12 @@ public class CompanyService {
         }
         return found;
     }
+
+    public Company getCompanyById(int id) {
+        Company company = companyRepository.getCompanyById(id);
+        if (company == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id);
+        }
+        return company;
+    }
 }

@@ -39,16 +39,11 @@ public class CompanyController {
         return companyService.updateCompany(id, updatedCompany);
     }
 
-//    @GetMapping("/{id}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public Company getCompanyById(@PathVariable int id) {
-//        for (Company c : companies) {
-//            if (c.getId().equals(id)) {
-//                return c;
-//            }
-//        }
-//        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id);
-//    }
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Company getCompanyById(@PathVariable int id) {
+        return companyService.getCompanyById(id);
+    }
 //
 //    @DeleteMapping("/{id}")
 //    @ResponseStatus(HttpStatus.NO_CONTENT)
