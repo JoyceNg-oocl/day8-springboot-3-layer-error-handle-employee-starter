@@ -30,6 +30,11 @@ public class CompanyControllerTest {
         companyController.empty();
     }
 
+    private void createSpring() throws Exception {
+        String json = new Gson().toJson(new Company("Spring"));
+        mockMvc.perform(post("/companies").contentType(MediaType.APPLICATION_JSON).content(json));
+    }
+
     @Test
     void should_return_created_company_when_post_companies() throws Exception {
         String requestBody = new Gson().toJson(new Company("Spring"));
@@ -46,28 +51,25 @@ public class CompanyControllerTest {
 
     @Test
     void should_return_all_companies_when_no_param() throws Exception {
-        String json = new Gson().toJson(new Company("Spring"));
-        mockMvc.perform(post("/companies").contentType(MediaType.APPLICATION_JSON).content(json));
+        createSpring();
 
         mockMvc.perform(get("/companies").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1));
     }
 
-//    @Test
-//    void should_return_company_when_get_id_found() throws Exception {
-//        Company spring = new Company();
-//        spring.setName("Spring");
-//        Company company = companyController.createCompany(spring);
-//
-//        MockHttpServletRequestBuilder request = get("/companies/" + company.getId())
-//                .contentType(MediaType.APPLICATION_JSON);
-//        mockMvc.perform(request)
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id").value(company.getId()))
-//                .andExpect(jsonPath("$.name").value(company.getName()));
-//    }
-//
+    @Test
+    void should_return_company_when_get_id_found() throws Exception {
+        createSpring();
+
+        MockHttpServletRequestBuilder request = get("/companies/" + 1)
+                .contentType(MediaType.APPLICATION_JSON);
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.name").value("Spring"));
+    }
+
 //    @Test
 //    void should_return_company_when_put_with_id_found() throws Exception {
 //        Company spring = new Company();
