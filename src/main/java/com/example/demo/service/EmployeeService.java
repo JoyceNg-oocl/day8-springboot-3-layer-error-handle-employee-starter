@@ -31,4 +31,8 @@ public class EmployeeService {
     public Employee createEmployee(Employee employee) {
         return employeeRepository.createEmployee(employee);
     }
+
+    public Employee updateEmployee(int id, Employee updatedEmployee) {
+        return employeeRepository.updateEmployee(id, updatedEmployee);
+    }
 }
