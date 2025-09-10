@@ -10,9 +10,9 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.server.ResponseStatusException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -59,6 +59,18 @@ public class EmployeeServiceTest {
 
         Employee employeeResult = employeeService.createEmployee(employee);
         assertEquals(true, employeeResult.getActiveStatus());
+    }
+
+    @Test
+    void should_return_active_false_when_employee_deleted() {
+        Employee employee = new Employee(null, "Jerry", 25, "MALE", 25000.0);
+        employee.setId(1);
+        assertTrue(employee.getActiveStatus());
+        when(employeeRepository.getEmployeeById(employee.getId())).thenReturn(employee);
+
+        employeeService.deleteEmployee(employee.getId());
+
+        verify(employeeRepository).updateEmployee(eq(employee.getId()), argThat(e -> e.getActiveStatus() == false));
     }
 
     @Test
