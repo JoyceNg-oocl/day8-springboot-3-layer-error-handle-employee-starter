@@ -4,6 +4,7 @@ import com.example.demo.entity.Company;
 import com.example.demo.repository.CompanyRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -43,5 +44,14 @@ public class CompanyService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id);
         }
         return company;
+    }
+
+    public void deleteCompany(int id) {
+        Company found = companyRepository.getCompanyById(id);
+        if (found != null) {
+            companyRepository.deleteCompany(id);
+            return;
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id);
     }
 }
