@@ -217,9 +217,20 @@ public class EmployeeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.activeStatus").value(false));
     }
-//
-//    @Test
-//    void should_throw_exception_when_update_a_left_employee() {
-//
-//    }
+
+    @Test
+    void should_throw_exception_when_update_a_left_employee() throws Exception {
+        Gson gson = new Gson();
+        String johnSmithJson = gson.toJson(new Employee(null, "John Smith", 28, "MALE", 60000.0)).toString();
+        mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content(johnSmithJson));
+
+        mockMvc.perform(delete("/employees/" + 1))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(put("/employees/" + 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(johnSmithJson))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Employee has been left with id: 1"));
+    }
 }
