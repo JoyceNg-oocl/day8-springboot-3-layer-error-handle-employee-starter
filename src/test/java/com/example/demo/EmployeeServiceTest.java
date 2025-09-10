@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.server.ResponseStatusException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -25,6 +26,7 @@ public class EmployeeServiceTest {
     @Test
     void should_employee_when_create_an_employee() {
         Employee employee = new Employee(null, "Tom", 20, "MALE", 20000.0);
+
         when(employeeRepository.createEmployee(any(Employee.class))).thenReturn(employee);
 
         Employee employeeResult = employeeService.createEmployee(employee);
@@ -34,6 +36,7 @@ public class EmployeeServiceTest {
     @Test
     void should_throw_exception_when_employee_of_greater_than_65_or_less_than_18() {
         Employee employee = new Employee(null, "Tom", 16, "MALE", 20000.0);
+
         when(employeeRepository.createEmployee(any(Employee.class))).thenReturn(employee);
 
         assertThrows(InvalidAgeEmployeeException.class, () -> employeeService.createEmployee(employee));
@@ -42,6 +45,7 @@ public class EmployeeServiceTest {
     @Test
     void should_throw_exception_when_employee_of_greater_than_or_equal_to_30_salary_below_20000() {
         Employee employee = new Employee(null, "Tom", 30, "MALE", 19999.0);
+
         when(employeeRepository.createEmployee(any(Employee.class))).thenReturn(employee);
 
         assertThrows(InvalidSalaryEmployeeException.class, () -> employeeService.createEmployee(employee));
@@ -50,10 +54,21 @@ public class EmployeeServiceTest {
     @Test
     void should_return_active_status_true_when_employee_created() {
         Employee employee = new Employee(null, "Tom", 20, "MALE", 20000.0);
+
         when(employeeRepository.createEmployee(any(Employee.class))).thenReturn(employee);
 
         Employee employeeResult = employeeService.createEmployee(employee);
         assertEquals(true, employeeResult.getActiveStatus());
     }
 
+    @Test
+    void should_throw_exception_when_update_a_left_employee() {
+        Employee leftEmployee = new Employee(null, "Jerry", 25, "MALE", 25000.0);
+        leftEmployee.setId(1);
+        leftEmployee.setActiveStatus(false);
+
+        when(employeeRepository.getEmployeeById(leftEmployee.getId())).thenReturn(leftEmployee);
+
+        assertThrows(ResponseStatusException.class, () -> employeeService.updateEmployee(leftEmployee.getId(), leftEmployee));
+    }
 }

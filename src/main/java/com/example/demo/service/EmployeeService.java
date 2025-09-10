@@ -44,10 +44,15 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(int id, Employee updatedEmployee) {
-        Employee employee = employeeRepository.updateEmployee(id, updatedEmployee);
-        if (employee == null) {
+        Employee found = getEmployeeById(id);
+        if (found == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
         }
+        if (!found.getActiveStatus()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Employee has been left with id: " + id);
+        }
+        Employee employee = employeeRepository.updateEmployee(id, updatedEmployee);
+
         return employee;
     }
 
