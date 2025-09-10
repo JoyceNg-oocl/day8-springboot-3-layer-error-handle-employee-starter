@@ -46,7 +46,7 @@ public class EmployeeRepository {
             }
         }
         if (found == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
+            return null;
         }
         found.setName(updatedEmployee.getName());
         found.setAge(updatedEmployee.getAge());
@@ -64,7 +64,7 @@ public class EmployeeRepository {
             }
         }
         if (found == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
+            return;
         }
         employees.remove(found);
     }
