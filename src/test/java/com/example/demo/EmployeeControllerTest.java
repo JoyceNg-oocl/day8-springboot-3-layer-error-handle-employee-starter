@@ -35,13 +35,13 @@ public class EmployeeControllerTest {
 
     private void createJohnSmith() throws Exception {
         Gson gson = new Gson();
-        String johnSmithJson = gson.toJson(new Employee("John Smith", 28, "MALE", 60000.0, null)).toString();
+        String johnSmithJson = gson.toJson(new Employee(null, "John Smith", 28, "MALE", 60000.0)).toString();
         mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content(johnSmithJson));
     }
 
     private void createJaneDoe() throws Exception {
         Gson gson = new Gson();
-        String janeDoeJson = gson.toJson(new Employee("Jane Doe", 22, "FEMALE", 60000.0, null)).toString();
+        String janeDoeJson = gson.toJson(new Employee(null, "Jane Doe", 22, "FEMALE", 60000.0)).toString();
         mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content(janeDoeJson));
     }
 
@@ -99,7 +99,7 @@ public class EmployeeControllerTest {
 
     @Test
     void should_create_employee() throws Exception {
-        String requestBody = new Gson().toJson(new Employee("John Smith", 28, "MALE", 60000.0, null));
+        String requestBody = new Gson().toJson(new Employee(null, "John Smith", 28, "MALE", 60000.0));
 
         mockMvc.perform(post("/employees")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -148,7 +148,7 @@ public class EmployeeControllerTest {
     void should_status_200_when_update_employee() throws Exception {
         createJohnSmith();
 
-        String requestBody = new Gson().toJson(new Employee("John Smith", 29, "MALE", 65000.0, null));
+        String requestBody = new Gson().toJson(new Employee(null, "John Smith", 29, "MALE", 65000.0));
 
         mockMvc.perform(put("/employees/" + 1)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -174,4 +174,14 @@ public class EmployeeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(5));
     }
+
+//    @Test
+//    void should_throw_exception_when_employee_of_greater_than_65_or_less_than_18() throws Exception {
+//        String requestBody = new Gson().toJson(new Employee(null, "John Smith", 29, "MALE", 65000.0));
+//
+//        mockMvc.perform(post("/employees")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(requestBody))
+//                .andExpect(status().isExpectationFailed());
+//    }
 }
