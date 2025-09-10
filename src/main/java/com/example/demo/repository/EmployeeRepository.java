@@ -68,4 +68,8 @@ public class EmployeeRepository {
         }
         employees.remove(found);
     }
+
+    public void empty() {
+        employees.clear();
+    }
 }

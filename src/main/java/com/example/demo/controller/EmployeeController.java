@@ -58,6 +58,6 @@ public class EmployeeController {
 
     @DeleteMapping("/all")
     public void empty() {
-        employees.clear();
+        employeeService.empty();
     }
 }
