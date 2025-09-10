@@ -175,24 +175,24 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$.length()").value(5));
     }
 
-//    @Test
-//    void should_throw_exception_when_employee_of_greater_than_65_or_less_than_18() throws Exception {
-//        String requestBody = new Gson().toJson(new Employee(null, "John Smith", 17, "MALE", 65000.0));
-//
-//        mockMvc.perform(post("/employees")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestBody))
-//
-//    }
-//
-//
+    @Test
+    void should_throw_exception_when_employee_of_greater_than_65_or_less_than_18() throws Exception {
+        String requestBody = new Gson().toJson(new Employee(null, "John Smith", 17, "MALE", 65000.0));
+
+        mockMvc.perform(post("/employees")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(jsonPath("$.message").value("Employee age less than 18 or greater than 65!"));
+
+    }
+
 //    @Test
 //    void should_throw_exception_when_employee_of_greater_than_or_equal_to_30_salary_below_20000() throws Exception {
 //        String requestBody = new Gson().toJson(new Employee(null, "John Smith", 30, "MALE", 19999.0));
 //        mockMvc.perform(post("/employees")
 //                        .contentType(MediaType.APPLICATION_JSON)
 //                        .content(requestBody))
-//                .andExpect(status());
+//                .andExpect(jsonPath("$.message").value("Employee age greater than or equal to 30 but salary below 30000!"));
 //    }
 
 
