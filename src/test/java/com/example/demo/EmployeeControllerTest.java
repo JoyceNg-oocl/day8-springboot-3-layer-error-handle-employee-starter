@@ -177,11 +177,42 @@ public class EmployeeControllerTest {
 
 //    @Test
 //    void should_throw_exception_when_employee_of_greater_than_65_or_less_than_18() throws Exception {
-//        String requestBody = new Gson().toJson(new Employee(null, "John Smith", 29, "MALE", 65000.0));
+//        String requestBody = new Gson().toJson(new Employee(null, "John Smith", 17, "MALE", 65000.0));
 //
 //        mockMvc.perform(post("/employees")
 //                        .contentType(MediaType.APPLICATION_JSON)
 //                        .content(requestBody))
-//                .andExpect(status().isExpectationFailed());
+//
+//    }
+//
+//
+//    @Test
+//    void should_throw_exception_when_employee_of_greater_than_or_equal_to_30_salary_below_20000() throws Exception {
+//        String requestBody = new Gson().toJson(new Employee(null, "John Smith", 30, "MALE", 19999.0));
+//        mockMvc.perform(post("/employees")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(requestBody))
+//                .andExpect(status());
+//    }
+
+
+    @Test
+    void should_return_active_status_true_when_employee_created() throws Exception {
+        createJohnSmith();
+
+        mockMvc.perform(get("/employees/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.activeStatus").value(true));
+    }
+//
+//    @Test
+//    void should_return_active_false_when_employee_deleted() throws Exception {
+//
+//    }
+//
+//    @Test
+//    void should_throw_exception_when_update_a_left_employee() {
+//
 //    }
 }
