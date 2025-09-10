@@ -31,13 +31,17 @@ public class EmployeeControllerTest {
 //        return e;
 //    }
 
-//    private static Employee johnSmith() {
-//        return employee("John Smith", 28, "MALE", 60000.0);
-//    }
-//
-//    private static Employee janeDoe() {
-//        return employee("Jane Doe", 22, "FEMALE", 60000.0);
-//    }
+    private void createJohnSmith() throws Exception {
+        Gson gson = new Gson();
+        String johnSmithJson = gson.toJson(new Employee("John Smith", 28, "MALE", 60000.0, null)).toString();
+        mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content(johnSmithJson));
+    }
+
+    private void createJaneDoe() throws Exception {
+        Gson gson = new Gson();
+        String janeDoeJson = gson.toJson(new Employee("Jane Doe", 22, "FEMALE", 60000.0, null)).toString();
+        mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content(janeDoeJson));
+    }
 
     @BeforeEach
     void cleanEmployees() {
@@ -53,13 +57,8 @@ public class EmployeeControllerTest {
 
     @Test
     void should_return_all_employee() throws Exception {
-        Gson gson = new Gson();
-        String johnSmithJson = gson.toJson(new Employee("John Smith", 28, "MALE", 60000.0, null)).toString();
-        String janeDoeJson = gson.toJson(new Employee("Jane Doe", 22, "FEMALE", 60000.0, null)).toString();
-
-        mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content(johnSmithJson));
-        mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content(janeDoeJson));
-
+        createJaneDoe();
+        createJohnSmith();
 
         mockMvc.perform(get("/employees")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -69,7 +68,8 @@ public class EmployeeControllerTest {
 
 //    @Test
 //    void should_return_employee_when_employee_found() throws Exception {
-//        Employee expect = employeeController.createEmployee(johnSmith());
+//        Gson gson = new Gson();
+//        String expect = gson.toJson(new Employee("John Smith", 28, "MALE", 60000.0, null)).toString();
 //
 //        mockMvc.perform(get("/employees/1")
 //                        .contentType(MediaType.APPLICATION_JSON))
