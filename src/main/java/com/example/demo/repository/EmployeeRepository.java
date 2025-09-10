@@ -38,16 +38,7 @@ public class EmployeeRepository {
     }
 
     public Employee updateEmployee(int id, Employee updatedEmployee) {
-        Employee found = null;
-        for (Employee e : employees) {
-            if (Objects.equals(e.getId(), id)) {
-                found = e;
-                break;
-            }
-        }
-        if (found == null) {
-            return null;
-        }
+        Employee found = getEmployeeById(id);
         found.setName(updatedEmployee.getName());
         found.setAge(updatedEmployee.getAge());
         found.setGender(updatedEmployee.getGender());
@@ -56,17 +47,7 @@ public class EmployeeRepository {
     }
 
     public void deleteEmployee(int id) {
-        Employee found = null;
-        for (Employee e : employees) {
-            if (e.getId() == id) {
-                found = e;
-                break;
-            }
-        }
-        if (found == null) {
-            return;
-        }
-        employees.remove(found);
+        employees.remove(getEmployeeById(id));
     }
 
     public void empty() {
