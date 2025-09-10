@@ -32,20 +32,13 @@ public class CompanyController {
     public Company createCompany(@RequestBody Company company) {
         return companyService.createCompany(company);
     }
-//
-//    @PutMapping("/{id}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public Company updateCompany(@PathVariable int id, @RequestBody Company updatedCompany) {
-//        Company found = null;
-//        for (Company c : companies) {
-//            if (c.getId().equals(id)) {
-//                c.setName(updatedCompany.getName());
-//                return c;
-//            }
-//        }
-//        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id);
-//    }
-//
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Company updateCompany(@PathVariable int id, @RequestBody Company updatedCompany) {
+        return companyService.updateCompany(id, updatedCompany);
+    }
+
 //    @GetMapping("/{id}")
 //    @ResponseStatus(HttpStatus.OK)
 //    public Company getCompanyById(@PathVariable int id) {

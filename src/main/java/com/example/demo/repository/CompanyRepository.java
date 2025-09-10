@@ -1,7 +1,9 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Company;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,5 +32,15 @@ public class CompanyRepository {
         company.setId(1);
         companies.add(company);
         return company;
+    }
+
+    public Company updateCompany(int id, Company updatedCompany) {
+        for (Company c : companies) {
+            if (c.getId().equals(id)) {
+                c.setName(updatedCompany.getName());
+                return c;
+            }
+        }
+        return null;
     }
 }
