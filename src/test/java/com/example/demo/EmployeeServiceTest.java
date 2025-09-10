@@ -81,6 +81,6 @@ public class EmployeeServiceTest {
 
         when(employeeRepository.getEmployeeById(leftEmployee.getId())).thenReturn(leftEmployee);
 
-        assertThrows(ResponseStatusException.class, () -> employeeService.updateEmployee(leftEmployee.getId(), leftEmployee));
+        assertThrows(InactiveStatusException.class, () -> employeeService.updateEmployee(leftEmployee.getId(), leftEmployee));
     }
 }

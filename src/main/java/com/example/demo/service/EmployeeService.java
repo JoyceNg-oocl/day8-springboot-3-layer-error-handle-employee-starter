@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.InactiveStatusException;
 import com.example.demo.InvalidAgeEmployeeException;
 import com.example.demo.InvalidSalaryEmployeeException;
 import com.example.demo.entity.Employee;
@@ -45,11 +46,11 @@ public class EmployeeService {
 
     public Employee updateEmployee(int id, Employee updatedEmployee) {
         Employee found = getEmployeeById(id);
-        if (found == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
-        }
+//        if (found == null) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
+//        }
         if (!found.getActiveStatus()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Employee has been left with id: " + id);
+            throw new InactiveStatusException("Employee has been left with id: " + id);
         }
         Employee employee = employeeRepository.updateEmployee(id, updatedEmployee);
 
