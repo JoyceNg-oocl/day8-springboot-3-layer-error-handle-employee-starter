@@ -19,11 +19,13 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(InvalidAgeEmployeeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseException exceptionHandler(InvalidAgeEmployeeException e) {
         return new ResponseException(e.getMessage());
     }
 
     @ExceptionHandler(InvalidSalaryEmployeeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseException exceptionHandler(InvalidSalaryEmployeeException e) {
         return new ResponseException(e.getMessage());
     }

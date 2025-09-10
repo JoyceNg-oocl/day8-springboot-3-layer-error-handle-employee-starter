@@ -182,6 +182,7 @@ public class EmployeeControllerTest {
         mockMvc.perform(post("/employees")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Employee age less than 18 or greater than 65!"));
 
     }
@@ -192,6 +193,7 @@ public class EmployeeControllerTest {
         mockMvc.perform(post("/employees")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Employee age greater than or equal to 30 but salary below 30000!"));
     }
 
