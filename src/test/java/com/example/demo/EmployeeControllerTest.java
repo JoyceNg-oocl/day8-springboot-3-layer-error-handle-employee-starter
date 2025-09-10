@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import com.example.demo.controller.EmployeeController;
 import com.example.demo.entity.Employee;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,27 +20,15 @@ public class EmployeeControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private EmployeeController employeeController;
-
-//    private static Employee employee(String name, int age, String gender, double salary) {
-//        Employee e = new Employee();
-//        e.setName(name);
-//        e.setAge(age);
-//        e.setGender(gender);
-//        e.setSalary(salary);
-//        return e;
-//    }
-
     private void createJohnSmith() throws Exception {
         Gson gson = new Gson();
-        String johnSmithJson = gson.toJson(new Employee(null, "John Smith", 28, "MALE", 60000.0)).toString();
+        String johnSmithJson = gson.toJson(new Employee(null, "John Smith", 28, "MALE", 60000.0));
         mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content(johnSmithJson));
     }
 
     private void createJaneDoe() throws Exception {
         Gson gson = new Gson();
-        String janeDoeJson = gson.toJson(new Employee(null, "Jane Doe", 22, "FEMALE", 60000.0)).toString();
+        String janeDoeJson = gson.toJson(new Employee(null, "Jane Doe", 22, "FEMALE", 60000.0));
         mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content(janeDoeJson));
     }
 
@@ -223,7 +210,7 @@ public class EmployeeControllerTest {
     @Test
     void should_throw_exception_when_update_a_left_employee() throws Exception {
         Gson gson = new Gson();
-        String johnSmithJson = gson.toJson(new Employee(null, "John Smith", 28, "MALE", 60000.0)).toString();
+        String johnSmithJson = gson.toJson(new Employee(null, "John Smith", 28, "MALE", 60000.0));
         mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content(johnSmithJson));
 
         mockMvc.perform(delete("/employees/" + 1))
