@@ -46,15 +46,14 @@ public class EmployeeService {
 
     public Employee updateEmployee(int id, Employee updatedEmployee) {
         Employee found = getEmployeeById(id);
-//        if (found == null) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
-//        }
+        if (found == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
+        }
         if (!found.getActiveStatus()) {
             throw new InactiveStatusException("Employee has been left with id: " + id);
         }
-        Employee employee = employeeRepository.updateEmployee(id, updatedEmployee);
 
-        return employee;
+        return employeeRepository.updateEmployee(id, updatedEmployee);
     }
 
     public void deleteEmployee(int id) {
