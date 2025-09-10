@@ -3,8 +3,6 @@ package com.example.demo.repository;
 import com.example.demo.entity.Employee;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -55,5 +53,19 @@ public class EmployeeRepository {
         found.setGender(updatedEmployee.getGender());
         found.setSalary(updatedEmployee.getSalary());
         return found;
+    }
+
+    public void deleteEmployee(int id) {
+        Employee found = null;
+        for (Employee e : employees) {
+            if (e.getId() == id) {
+                found = e;
+                break;
+            }
+        }
+        if (found == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
+        }
+        employees.remove(found);
     }
 }
