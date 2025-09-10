@@ -22,4 +22,8 @@ public class CompanyService {
     public List<Company> getCompanies(Integer page, Integer size) {
         return companyRepository.getCompanies(page, size);
     }
+
+    public Company createCompany(Company company) {
+        return companyRepository.createCompany(company);
+    }
 }

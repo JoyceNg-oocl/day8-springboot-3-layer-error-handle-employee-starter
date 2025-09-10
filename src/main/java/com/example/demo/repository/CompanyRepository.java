@@ -25,4 +25,10 @@ public class CompanyRepository {
         }
         return companies;
     }
+
+    public Company createCompany(Company company) {
+        company.setId(1);
+        companies.add(company);
+        return company;
+    }
 }
