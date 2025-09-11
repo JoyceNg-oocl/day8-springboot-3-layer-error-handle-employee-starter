@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +18,10 @@ public class Employee {
     private String gender;
     private Double salary;
     private boolean activeStatus = true;
+
+    @Column(name = "company_id")
+    private Integer companyId;
+
 
     public Employee(Integer id, String name, int age, String gender, double salary) {
         this.id = id;
