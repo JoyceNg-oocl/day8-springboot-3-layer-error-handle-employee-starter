@@ -1,7 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Company;
-import com.example.demo.repository.CompanyRepository;
+import com.example.demo.repository.ICompanyRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -10,30 +11,31 @@ import java.util.List;
 
 @Service
 public class CompanyService {
-    private final CompanyRepository companyRepository;
+    private final ICompanyRepository companyRepository;
 
-    public CompanyService(CompanyRepository companyRepository) {
+    public CompanyService(ICompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
     }
 
-    public void empty() {
-        companyRepository.empty();
-    }
-
     public List<Company> getCompanies(Integer page, Integer size) {
-        return companyRepository.getCompanies(page, size);
+        if (page == null || size == null) {
+            return companyRepository.findAll();
+        }
+        Pageable pageable = Pageable.ofSize(size).withPage(page - 1);
+        return companyRepository.findAll(pageable).stream().toList();
     }
 
     public Company createCompany(Company company) {
-        return companyRepository.createCompany(company);
+        return companyRepository.save(company);
     }
 
     public Company updateCompany(int id, Company updatedCompany) {
-        Company found = companyRepository.updateCompany(id, updatedCompany);
+        Company found = getCompanyById(id);
         if (found == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id);
         }
-        return found;
+        updatedCompany.setId(id);
+        return companyRepository.save(updatedCompany);
     }
 
     public Company getCompanyById(int id) {
@@ -45,9 +47,9 @@ public class CompanyService {
     }
 
     public void deleteCompany(int id) {
-        Company found = companyRepository.getCompanyById(id);
+        Company found = getCompanyById(id);
         if (found != null) {
-            companyRepository.deleteCompany(id);
+            companyRepository.delete(found);
             return;
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id);
