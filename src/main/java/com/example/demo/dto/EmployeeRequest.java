@@ -14,7 +14,7 @@ public class EmployeeRequest {
     @Min(value = 0, message = "Salary must be positive number")
     private Double salary;
 
-    public EmployeeRequest(String name, Integer age, String gender, Double salary, boolean activeStatus) {
+    public EmployeeRequest(String name, Integer age, String gender, Double salary) {
         this.name = name;
         this.age = age;
         this.gender = gender;
