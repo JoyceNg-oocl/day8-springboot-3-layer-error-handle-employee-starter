@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.EmployeeResponse;
+import com.example.demo.dto.mapper.EmployeeMapper;
 import com.example.demo.entity.Employee;
 import com.example.demo.service.EmployeeService;
 import org.springframework.http.HttpStatus;
@@ -20,30 +22,32 @@ import java.util.List;
 @RequestMapping("/employees")
 public class EmployeeController {
     private final EmployeeService employeeService;
+    private final EmployeeMapper employeeMapper;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, EmployeeMapper employeeMapper) {
         this.employeeService = employeeService;
+        this.employeeMapper = employeeMapper;
     }
 
     @GetMapping
-    public List<Employee> getEmployees(@RequestParam(required = false) String gender, @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
+    public List<EmployeeResponse> getEmployees(@RequestParam(required = false) String gender, @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
         return employeeService.getEmployees(gender, page, size);
     }
 
     @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable int id) {
+    public EmployeeResponse getEmployeeById(@PathVariable int id) {
         return employeeService.getEmployeeById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Employee createEmployee(@RequestBody Employee employee) {
+    public EmployeeResponse createEmployee(@RequestBody Employee employee) {
         return employeeService.createEmployee(employee);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Employee updateEmployee(@PathVariable int id, @RequestBody Employee updatedEmployee) {
+    public EmployeeResponse updateEmployee(@PathVariable int id, @RequestBody Employee updatedEmployee) {
         return employeeService.updateEmployee(id, updatedEmployee);
     }
 
