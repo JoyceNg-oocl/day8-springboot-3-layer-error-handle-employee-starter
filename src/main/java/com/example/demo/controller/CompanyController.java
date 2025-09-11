@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.CompanyRequest;
 import com.example.demo.dto.CompanyResponse;
+import com.example.demo.dto.mapper.CompanyMapper;
 import com.example.demo.entity.Company;
 import com.example.demo.service.CompanyService;
 import org.springframework.http.HttpStatus;
@@ -33,19 +35,21 @@ public class CompanyController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CompanyResponse createCompany(@RequestBody Company company) {
+    public CompanyResponse createCompany(@RequestBody CompanyRequest companyRequest) {
+        Company company = CompanyMapper.toCompany(companyRequest);
         return companyService.createCompany(company);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CompanyResponse updateCompany(@PathVariable int id, @RequestBody Company updatedCompany) {
+    public CompanyResponse updateCompany(@PathVariable int id, @RequestBody CompanyRequest updatedCompanyRequest) {
+        Company updatedCompany = CompanyMapper.toCompany(updatedCompanyRequest);
         return companyService.updateCompany(id, updatedCompany);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CompanyResponse  getCompanyById(@PathVariable int id) {
+    public CompanyResponse getCompanyById(@PathVariable int id) {
         return companyService.getCompanyById(id);
     }
 
