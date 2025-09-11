@@ -1,7 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.entity.Employee;
-import com.example.demo.repository.EmployeeRepository;
+import com.example.demo.repository.IEmployeeRepository;
 import com.example.demo.service.EmployeeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,8 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -20,13 +23,13 @@ public class EmployeeServiceTest {
     private EmployeeService employeeService;
 
     @Mock
-    private EmployeeRepository employeeRepository;
+    private IEmployeeRepository employeeRepository;
 
     @Test
     void should_employee_when_create_an_employee() {
         Employee employee = new Employee(null, "Tom", 20, "MALE", 20000.0);
 
-        when(employeeRepository.createEmployee(any(Employee.class))).thenReturn(employee);
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
 
         Employee employeeResult = employeeService.createEmployee(employee);
         assertEquals(employeeResult.getAge(), employee.getAge());
@@ -36,7 +39,7 @@ public class EmployeeServiceTest {
     void should_throw_exception_when_employee_of_greater_than_65_or_less_than_18() {
         Employee employee = new Employee(null, "Tom", 16, "MALE", 20000.0);
 
-        when(employeeRepository.createEmployee(any(Employee.class))).thenReturn(employee);
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
 
         assertThrows(InvalidAgeEmployeeException.class, () -> employeeService.createEmployee(employee));
     }
@@ -45,7 +48,7 @@ public class EmployeeServiceTest {
     void should_throw_exception_when_employee_of_greater_than_or_equal_to_30_salary_below_20000() {
         Employee employee = new Employee(null, "Tom", 30, "MALE", 19999.0);
 
-        when(employeeRepository.createEmployee(any(Employee.class))).thenReturn(employee);
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
 
         assertThrows(InvalidSalaryEmployeeException.class, () -> employeeService.createEmployee(employee));
     }
@@ -54,7 +57,7 @@ public class EmployeeServiceTest {
     void should_return_active_status_true_when_employee_created() {
         Employee employee = new Employee(null, "Tom", 20, "MALE", 20000.0);
 
-        when(employeeRepository.createEmployee(any(Employee.class))).thenReturn(employee);
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
 
         Employee employeeResult = employeeService.createEmployee(employee);
         assertEquals(true, employeeResult.getActiveStatus());
@@ -65,11 +68,11 @@ public class EmployeeServiceTest {
         Employee employee = new Employee(null, "Jerry", 25, "MALE", 25000.0);
         employee.setId(1);
         assertTrue(employee.getActiveStatus());
-        when(employeeRepository.getEmployeeById(employee.getId())).thenReturn(employee);
+        when(employeeRepository.findById(employee.getId())).thenReturn(Optional.of(employee));
 
         employeeService.deleteEmployee(employee.getId());
 
-        verify(employeeRepository).updateEmployee(eq(employee.getId()), argThat(e -> e.getActiveStatus() == false));
+        verify(employeeRepository).save(argThat(e -> !e.getActiveStatus()));
     }
 
     @Test
@@ -78,7 +81,7 @@ public class EmployeeServiceTest {
         leftEmployee.setId(1);
         leftEmployee.setActiveStatus(false);
 
-        when(employeeRepository.getEmployeeById(leftEmployee.getId())).thenReturn(leftEmployee);
+        when(employeeRepository.findById(leftEmployee.getId())).thenReturn(Optional.of(leftEmployee));
 
         assertThrows(InactiveStatusException.class, () -> employeeService.updateEmployee(leftEmployee.getId(), leftEmployee));
     }
