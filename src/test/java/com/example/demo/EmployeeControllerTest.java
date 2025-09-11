@@ -181,7 +181,7 @@ public class EmployeeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Employee age greater than or equal to 30 but salary below 30000!"));
+                .andExpect(jsonPath("$.message").value("Employee age greater than or equal to 30 but salary below 20000!"));
     }
 
     @Test
