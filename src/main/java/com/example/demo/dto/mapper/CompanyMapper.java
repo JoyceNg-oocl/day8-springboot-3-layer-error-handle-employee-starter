@@ -1,7 +1,9 @@
 package com.example.demo.dto.mapper;
 
+import com.example.demo.dto.CompanyRequest;
 import com.example.demo.dto.CompanyResponse;
 import com.example.demo.entity.Company;
+import com.example.demo.entity.Employee;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +28,12 @@ public class CompanyMapper {
 
     public List<CompanyResponse> toResponse(List<Company> companies) {
         return companies.stream().map(this::toResponse).toList();
+    }
+
+    public static Company toCompany(CompanyRequest companyRequest) {
+        Company company = new Company();
+        BeanUtils.copyProperties(companyRequest, company);
+        return company;
     }
 }
 
