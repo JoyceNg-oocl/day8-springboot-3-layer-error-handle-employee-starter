@@ -5,14 +5,14 @@ public class EmployeeResponse {
     private String name;
     private Integer age;
     private String gender;
-    private boolean activeStatus;
+    private boolean active;
 
-    public EmployeeResponse(Integer id, String name, Integer age, String gender, boolean activeStatus) {
+    public EmployeeResponse(Integer id, String name, Integer age, String gender, boolean active) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
-        this.activeStatus = activeStatus;
+        this.active = active;
     }
 
     public Integer getId() {
@@ -47,12 +47,12 @@ public class EmployeeResponse {
         this.gender = gender;
     }
 
-    public boolean getActiveStatus() {
-        return activeStatus;
+    public boolean getActive() {
+        return active;
     }
 
-    public void setActiveStatus(boolean activeStatus) {
-        this.activeStatus = activeStatus;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public EmployeeResponse() {

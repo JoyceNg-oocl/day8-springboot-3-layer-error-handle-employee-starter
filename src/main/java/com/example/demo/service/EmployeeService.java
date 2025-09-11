@@ -68,7 +68,7 @@ public class EmployeeService {
 
     public EmployeeResponse updateEmployee(int id, Employee updatedEmployee) {
         Optional<Employee> found = employeeRepository.findById(id);
-        if (!found.get().getActiveStatus()) {
+        if (!found.get().getActive()) {
             throw new InactiveStatusException("Employee has been left with id: " + id);
         }
         if (updatedEmployee.getName() != null) found.get().setName(updatedEmployee.getName());
@@ -81,7 +81,7 @@ public class EmployeeService {
     public void deleteEmployee(int id) {
         Optional<Employee> deletedEmployee = employeeRepository.findById(id);
 
-        deletedEmployee.get().setActiveStatus(false);
+        deletedEmployee.get().setActive(false);
         employeeRepository.save(deletedEmployee.get());
     }
 }

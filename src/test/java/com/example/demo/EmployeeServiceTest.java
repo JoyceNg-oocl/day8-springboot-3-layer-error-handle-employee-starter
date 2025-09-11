@@ -68,19 +68,19 @@ public class EmployeeServiceTest {
     void should_return_active_false_when_employee_deleted() {
         Employee employee = new Employee(null, "Jerry", 25, "MALE", 25000.0);
         employee.setId(1);
-        assertTrue(employee.getActiveStatus());
+        assertTrue(employee.getActive());
         when(employeeRepository.findById(employee.getId())).thenReturn(Optional.of(employee));
 
         employeeService.deleteEmployee(employee.getId());
 
-        verify(employeeRepository).save(argThat(e -> !e.getActiveStatus()));
+        verify(employeeRepository).save(argThat(e -> !e.getActive()));
     }
 
     @Test
     void should_throw_exception_when_update_a_left_employee() {
         Employee leftEmployee = new Employee(null, "Jerry", 25, "MALE", 25000.0);
         leftEmployee.setId(1);
-        leftEmployee.setActiveStatus(false);
+        leftEmployee.setActive(false);
 
         when(employeeRepository.findById(leftEmployee.getId())).thenReturn(Optional.of(leftEmployee));
 

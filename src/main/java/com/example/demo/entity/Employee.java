@@ -17,7 +17,7 @@ public class Employee {
     private Integer age;
     private String gender;
     private Double salary;
-    private boolean activeStatus = true;
+    private boolean active = true;
 
     @Column(name = "company_id")
     private Integer companyId;
@@ -55,8 +55,8 @@ public class Employee {
         return salary;
     }
 
-    public boolean getActiveStatus() {
-        return activeStatus;
+    public boolean getActive() {
+        return active;
     }
 
     public void setId(int id) {
@@ -79,7 +79,7 @@ public class Employee {
         this.salary = salary;
     }
 
-    public void setActiveStatus(boolean activeStatus) {
-        this.activeStatus = activeStatus;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
