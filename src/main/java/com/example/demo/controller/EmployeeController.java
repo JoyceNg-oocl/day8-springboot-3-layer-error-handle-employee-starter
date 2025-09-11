@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.EmployeeRequest;
 import com.example.demo.dto.EmployeeResponse;
 import com.example.demo.dto.mapper.EmployeeMapper;
 import com.example.demo.entity.Employee;
 import com.example.demo.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,13 +44,15 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EmployeeResponse createEmployee(@RequestBody Employee employee) {
-        return employeeService.createEmployee(employee);
+    public EmployeeResponse createEmployee(@RequestBody @Validated EmployeeRequest employeeRequest) {
+        Employee createEmployee = EmployeeMapper.toEmployee(employeeRequest);
+        return employeeService.createEmployee(createEmployee);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public EmployeeResponse updateEmployee(@PathVariable int id, @RequestBody Employee updatedEmployee) {
+    public EmployeeResponse updateEmployee(@PathVariable int id, @RequestBody EmployeeRequest employeeRequest) {
+        Employee updatedEmployee = EmployeeMapper.toEmployee(employeeRequest);
         return employeeService.updateEmployee(id, updatedEmployee);
     }
 

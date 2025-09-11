@@ -26,6 +26,8 @@ public class EmployeeServiceTest {
     @Mock
     private IEmployeeRepository employeeRepository;
 
+
+
     @Test
     void should_employee_when_create_an_employee() {
         Employee employee = new Employee(null, "Tom", 20, "MALE", 20000.0);
@@ -61,7 +63,7 @@ public class EmployeeServiceTest {
         when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
 
         EmployeeResponse employeeResult = employeeService.createEmployee(employee);
-        assertEquals(true, employeeResult.getActiveStatus());
+        assertEquals(true, employeeResult.getActive());
     }
 
     @Test
