@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.dto.EmployeeResponse;
 import com.example.demo.entity.Employee;
 import com.example.demo.repository.IEmployeeRepository;
 import com.example.demo.service.EmployeeService;
@@ -31,8 +32,8 @@ public class EmployeeServiceTest {
 
         when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
 
-//        Employee employeeResult = employeeService.createEmployee(employee);
-//        assertEquals(employeeResult.getAge(), employee.getAge());
+        EmployeeResponse employeeResult = employeeService.createEmployee(employee);
+        assertEquals(employeeResult.getAge(), employee.getAge());
     }
 
     @Test
@@ -59,8 +60,8 @@ public class EmployeeServiceTest {
 
         when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
 
-//        Employee employeeResult = employeeService.createEmployee(employee);
-//        assertEquals(true, employeeResult.getActiveStatus());
+        EmployeeResponse employeeResult = employeeService.createEmployee(employee);
+        assertEquals(true, employeeResult.getActiveStatus());
     }
 
     @Test

@@ -47,7 +47,7 @@ public class EmployeeResponse {
         this.gender = gender;
     }
 
-    public boolean isActiveStatus() {
+    public boolean getActiveStatus() {
         return activeStatus;
     }
 

@@ -9,13 +9,13 @@ import java.util.List;
 
 @Component
 public class EmployeeMapper {
-    public EmployeeResponse toResponse(Employee employee) {
+    public static EmployeeResponse toResponse(Employee employee) {
         EmployeeResponse employeeResponse = new EmployeeResponse();
         BeanUtils.copyProperties(employee, employeeResponse);
         return employeeResponse;
     }
 
-     public List<EmployeeResponse> toResponse(List<Employee> employees) {
-        return employees.stream().map(this::toResponse).toList();
+     public static List<EmployeeResponse> toResponse(List<Employee> employees) {
+        return employees.stream().map(EmployeeMapper::toResponse).toList();
     }
 }
