@@ -19,6 +19,8 @@ public class Employee {
     private Double salary;
     private boolean active = true;
 
+    private String address;
+
     @Column(name = "company_id")
     private Integer companyId;
 
@@ -81,5 +83,13 @@ public class Employee {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
